@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Add Column If Not Exists</Title>
+            <Shortcut></Shortcut>
+            <Description>Check if new column already exists in table before adding</Description>
+            <Author>Nathan Cosgray</Author>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal>
+                    <ID>SchemaName</ID>
+                    <ToolTip>Table schema</ToolTip>
+                    <Default>SchemaName</Default>
+                </Literal>
+                <Literal>
+                    <ID>TableName</ID>
+                    <ToolTip>Name of table to add column to</ToolTip>
+                    <Default>TableName</Default>
+                </Literal>
+                <Literal>
+                    <ID>ColumnName</ID>
+                    <ToolTip>Name of new column</ToolTip>
+                    <Default>ColumnName</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="SQL">
+                <![CDATA[IF NOT EXISTS(
+  SELECT 1 FROM sys.columns
+  WHERE name = N'$ColumnName$'
+    AND object_id = object_id(N'$SchemaName$.$TableName$')
+)
+BEGIN
+  ALTER TABLE $SchemaName$.$TableName$
+  ADD $ColumnName$ nvarchar(100) NULL
+END
+GO 
+]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

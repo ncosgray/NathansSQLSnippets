@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Drop Table If Exists</Title>
+            <Shortcut></Shortcut>
+            <Description>Check if table exists before dropping</Description>
+            <Author>Nathan Cosgray</Author>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal>
+                    <ID>SchemaName</ID>
+                    <ToolTip>Table schema</ToolTip>
+                    <Default>SchemaName</Default>
+                </Literal>
+                <Literal>
+                    <ID>TableName</ID>
+                    <ToolTip>Name of table to drop</ToolTip>
+                    <Default>TableName</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="SQL">
+                <![CDATA[IF object_id(N'$SchemaName$.$TableName$', 'U') IS NOT NULL 
+  DROP TABLE $SchemaName$.$TableName$;
+]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

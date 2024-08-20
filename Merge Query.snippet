@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Merge Query</Title>
+            <Shortcut></Shortcut>
+            <Description>T-SQL merge query template using staging table, single primary key, and up to 9 data columns</Description>
+            <Author>Nathan Cosgray</Author>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal>
+                    <ID>SourceTableName</ID>
+                    <ToolTip>Name of staging/source table, including database and schema if needed</ToolTip>
+                    <Default>SourceTableName</Default>
+                </Literal>
+                <Literal>
+                    <ID>TargetTableName</ID>
+                    <ToolTip>Name of destination/target table, including database and schema if needed</ToolTip>
+                    <Default>TargetTableName</Default>
+                </Literal>
+                <Literal>
+                    <ID>ID</ID>
+                    <ToolTip>Primary key to join on</ToolTip>
+                    <Default>ID</Default>
+                </Literal>
+                <Literal>
+                    <ID>Column1</ID>
+                    <Default>Column1</Default>
+                </Literal>
+                <Literal>
+                    <ID>Column2</ID>
+                    <Default>Column2</Default>
+                </Literal>
+                <Literal>
+                    <ID>Column3</ID>
+                    <Default>Column3</Default>
+                </Literal>
+                <Literal>
+                    <ID>Column4</ID>
+                    <Default>Column4</Default>
+                </Literal>
+                <Literal>
+                    <ID>Column5</ID>
+                    <Default>Column5</Default>
+                </Literal>
+                <Literal>
+                    <ID>Column6</ID>
+                    <Default>Column6</Default>
+                </Literal>
+                <Literal>
+                    <ID>Column7</ID>
+                    <Default>Column7</Default>
+                </Literal>
+                <Literal>
+                    <ID>Column8</ID>
+                    <Default>Column8</Default>
+                </Literal>
+                <Literal>
+                    <ID>Column9</ID>
+                    <Default>Column9</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="SQL">
+                <![CDATA[MERGE $TargetTableName$ tgt
+USING $SourceTableName$ src
+  ON tgt.$ID$ = src.$ID$
+WHEN MATCHED 
+  AND NOT EXISTS (
+    SELECT tgt.$Column1$
+    , tgt.$Column2$
+    , tgt.$Column3$
+    , tgt.$Column4$
+    , tgt.$Column5$
+    , tgt.$Column6$
+    , tgt.$Column7$
+    , tgt.$Column8$
+    , tgt.$Column9$
+    INTERSECT
+    SELECT src.$Column1$
+    , src.$Column2$
+    , src.$Column3$
+    , src.$Column4$
+    , src.$Column5$
+    , src.$Column6$
+    , src.$Column7$
+    , src.$Column8$
+    , src.$Column9$
+  )
+  THEN UPDATE
+  SET tgt.$Column1$ = src.$Column1$
+    , tgt.$Column2$ = src.$Column2$
+    , tgt.$Column3$ = src.$Column3$
+    , tgt.$Column4$ = src.$Column4$
+    , tgt.$Column5$ = src.$Column5$
+    , tgt.$Column6$ = src.$Column6$
+    , tgt.$Column7$ = src.$Column7$
+    , tgt.$Column8$ = src.$Column8$
+    , tgt.$Column9$ = src.$Column9$
+WHEN NOT MATCHED BY TARGET
+  THEN INSERT ($ID$
+    , $Column1$
+    , $Column2$
+    , $Column3$
+    , $Column4$
+    , $Column5$
+    , $Column6$
+    , $Column7$
+    , $Column8$
+    , $Column9$
+  )
+  VALUES (src.$ID$
+    , src.$Column1$
+    , src.$Column2$
+    , src.$Column3$
+    , src.$Column4$
+    , src.$Column5$
+    , src.$Column6$
+    , src.$Column7$
+    , src.$Column8$
+    , src.$Column9$
+  )
+--WHEN NOT MATCHED BY SOURCE
+--  THEN DELETE
+OUTPUT sysdatetime() AS OperationDateTime
+, $$action AS Operation
+, inserted.$ID$
+, inserted.$Column1$ AS New_$Column1$
+, deleted.$Column1$ AS Old_$Column1$
+, inserted.$Column2$ AS New_$Column2$
+, deleted.$Column2$ AS Old_$Column2$
+, inserted.$Column3$ AS New_$Column3$
+, deleted.$Column3$ AS Old_$Column3$
+, inserted.$Column4$ AS New_$Column4$
+, deleted.$Column4$ AS Old_$Column4$
+, inserted.$Column5$ AS New_$Column5$
+, deleted.$Column5$ AS Old_$Column5$
+, inserted.$Column6$ AS New_$Column6$
+, deleted.$Column6$ AS Old_$Column6$
+, inserted.$Column7$ AS New_$Column7$
+, deleted.$Column7$ AS Old_$Column7$
+, inserted.$Column8$ AS New_$Column8$
+, deleted.$Column8$ AS Old_$Column8$
+, inserted.$Column9$ AS New_$Column9$
+, deleted.$Column9$ AS Old_$Column9$
+;
+]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>
